@@ -5,12 +5,12 @@ import logging
 import os
 import urllib.parse
 
-# Enable logging
-from bot_models import News, User, Scale, Interest, UserInterests, NewsInterests, InternalError
+from bot_models import News, User, Scale, Interest, UserInterests, NewsInterests, InternalError, psql_db
 from peewee import PostgresqlDatabase
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackQueryHandler, MessageHandler, Filters
 
+# Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -388,17 +388,21 @@ def scale_calc(scale):
 
 
 def main():
-    psql_db = PostgresqlDatabase('networking',
-                                 user=os.environ.get('DB_USERNAME'),
-                                 password=os.environ.get('DB_PASSWORD'))
-
     try:
         psql_db.connect()
     except InternalError as px:
         print(str(px))
     # Create the EventHandler and pass it your bot's token.
     token = os.environ.get('BOT_TOKEN')
-    updater = Updater(token)
+    # REQUEST_KWARGS={
+    #     'proxy_url': 'http://my-proxy:8080/',
+    # }
+    try:
+        # Add request_kwargs=REQUEST_KWARGS to Updater invoke to set proxy params
+        updater = Updater(token)
+    except ValueError as err:
+        print("Bot token error!", err, ". Exiting now...")
+        exit(1)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher

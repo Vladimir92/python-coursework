@@ -5,7 +5,8 @@ from peewee import *
 
 psql_db = PostgresqlDatabase('networking',
                              user=os.environ.get('DB_USERNAME'),
-                             password=os.environ.get('DB_PASSWORD'))
+                             password=os.environ.get('DB_PASSWORD'),
+                             host='127.0.0.1')
 
 
 class Interest(Model):
