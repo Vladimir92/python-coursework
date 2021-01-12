@@ -59,7 +59,7 @@ class Scale(Model):
         db_table = "network_bot_scale"
 
 
-class News(Model):
+class Novelty(Model):
     text = CharField(max_length=1024, null=True)
     is_published = BooleanField(default=False, verbose_name='already published')
     scale_from = IntegerField()
@@ -67,14 +67,14 @@ class News(Model):
 
     class Meta:
         database = psql_db
-        db_table = "network_bot_news"
+        db_table = "network_bot_novelties"
 
 
-class NewsInterests(Model):
-    news = ForeignKeyField(News)
+class NoveltyInterests(Model):
+    novelties = ForeignKeyField(Novelty)
     interest = ForeignKeyField(Interest)
 
     class Meta:
         database = psql_db
-        db_table = "network_bot_news_interests"
+        db_table = "network_bot_novelties_interests"
 

@@ -5,7 +5,7 @@ import logging
 import os
 import urllib.parse
 
-from bot_models import News, User, Scale, Interest, UserInterests, NewsInterests, InternalError, psql_db
+from bot_models import Novelty, User, Scale, Interest, UserInterests, NoveltyInterests, InternalError, psql_db
 from peewee import PostgresqlDatabase
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, ConversationHandler, CallbackQueryHandler, MessageHandler, Filters
